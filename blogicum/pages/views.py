@@ -1,6 +1,4 @@
-from django.shortcuts import render
-
-app_name = 'pages'
+from django.shortcuts import render  # type: ignore
 
 
 def about(request):

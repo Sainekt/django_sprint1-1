@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render  # type: ignore
+
 
 posts = [
     {
@@ -42,8 +43,7 @@ posts = [
                 укутывал их, чтобы не испортились от дождя.''',
     },
 ]
-
-app_name = 'blog'
+posts_id = {post['id']: post for post in posts}
 
 
 def index(request):
@@ -52,9 +52,12 @@ def index(request):
     return render(request, template, context)
 
 
-def post_detail(request, id):
+def post_detail(request, post_id):
     template = 'blog/detail.html'
-    context = {'post': posts[id]}
+    if post_id in posts_id:
+        context = {'post': posts_id[post_id]}
+    else:
+        return handler_post_detail404(request)
     return render(request, template, context)
 
 
@@ -62,3 +65,10 @@ def category_posts(request, category_slug):
     template = 'blog/category.html'
     context = {'category': category_slug}
     return render(request, template, context)
+
+
+def handler_post_detail404(request):
+    template = 'blog/detail404.html'
+    response = render(request, template)
+    response.status_code = 404
+    return response

@@ -1,5 +1,5 @@
 from django.urls import path  # type: ignore
-from . import views
+from pages import views
 
 app_name = 'pages'
 
